@@ -4,10 +4,10 @@ namespace CRMConnect.CRMConnect.Business.Interfaces
 {
     public interface IAccountService
     {
-        IEnumerable<Account> GetAllAccounts();
-        Account GetAccountById(int id);
-        Account CreateAccount(Account account);
-        bool UpdateAccount(Account account);
-        bool DeleteAccount(int id);
+        Task<List<Account>> GetAllAccountsAsync();
+        Task<Account> GetAccountByIdAsync(int id);
+        Task<Account> CreateAccountAsync(Account account);
+        Task<bool> UpdateAccountAsync(Account account);
+        Task<bool> DeleteAccountAsync(int id);
     }
 }
