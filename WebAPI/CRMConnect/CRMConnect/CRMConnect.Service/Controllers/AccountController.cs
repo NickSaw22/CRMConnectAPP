@@ -6,7 +6,7 @@ namespace CRMConnect.CRMConnect.Service.Controllers
 {
     [Route("api/accounts")]
     [ApiController]
-    public class AccountController : Controller
+    public class AccountController : ControllerBase
     {
         private readonly IAccountService _accountService;
         public AccountController(IAccountService accountService) { 
@@ -14,16 +14,16 @@ namespace CRMConnect.CRMConnect.Service.Controllers
         }
 
         [HttpGet("getAllAccounts")]
-        public ActionResult<Account> GetAllAccounts()
+        public async Task<IActionResult> GetAllAccounts()
         {   
-            var result = _accountService.GetAllAccounts();
+            var result = await _accountService.GetAllAccountsAsync();
             return Ok(result);
         }
 
         [HttpGet("getAccount/{id}")]
-        public ActionResult<Account> GetAccount(int id)
+        public async Task<IActionResult> GetAccount(int id)
         {
-            var account = _accountService.GetAccountById(id);
+            var account = await _accountService.GetAccountByIdAsync(id);
             if(account == null)
             {
                 return NotFound();
@@ -32,20 +32,20 @@ namespace CRMConnect.CRMConnect.Service.Controllers
         }
 
         [HttpPost("createAccount")]
-        public ActionResult<Account> CreateAccount([FromBody] Account account)
+        public async Task<IActionResult> CreateAccount([FromBody] Account account)
         {
             if(account == null)
             {
                 return BadRequest(string.Empty);
             }
-            var createdAccount = _accountService.CreateAccount(account);
+            var createdAccount = await _accountService.CreateAccountAsync(account);
             return Ok(createdAccount);
         }
 
         [HttpDelete("deleteAccount/{id}")]
-        public IActionResult DeleteAccount(int id)
+        public async Task<IActionResult> DeleteAccount(int id)
         {
-            var result = _accountService.DeleteAccount(id);
+            var result = await _accountService.DeleteAccountAsync(id);
 
             if (!result)
             {
@@ -55,14 +55,14 @@ namespace CRMConnect.CRMConnect.Service.Controllers
         }
 
         [HttpPost("updateAccount")]
-        public IActionResult UpdateAccount([FromBody] Account account) 
+        public async Task<IActionResult> UpdateAccount([FromBody] Account account) 
         { 
             if (account == null)
             {
                 return BadRequest();
             }
 
-            var result = _accountService.UpdateAccount(account);
+            var result = await _accountService.UpdateAccountAsync(account);
             return Ok(result);
         }
     }

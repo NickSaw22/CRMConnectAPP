@@ -103,6 +103,12 @@ namespace CRMConnect.CRMConnect.Service.Extentions
         {       
 
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IContactService, ContactService>();
+            services.AddScoped<IOpportunityService, OpportunityService>();
+            services.AddScoped<IDealService, DealService>();
+            services.AddScoped<ITaskService, TaskService>();
+            services.AddScoped<INoteService, NoteService>();
+
         }
 
         /// <summary>
@@ -112,20 +118,15 @@ namespace CRMConnect.CRMConnect.Service.Extentions
         public static void AddDataServices(this IServiceCollection services)
         {
             services.AddScoped<IAccountRepository, AccountRepository>();
-            
+            services.AddScoped<IContactRepository, ContactRepository>();
+            services.AddScoped<IOpportunityRepository, OpportunityRepository>();
+            services.AddScoped<IDealRepository, DealRepository>();
+            services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddScoped<INoteRepository, NoteRepository>();
         }
 
 
-        /// <summary>
-        /// This will add the leo sql client to DI
-        /// </summary>
-        /// <param name="services"></param>
-        public static void AddSqlClient(this IServiceCollection services)
-        {
-            services.AddDbContext<ApplicationDbContext>(options => 
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-        }
-
+        
         /// <summary>
         /// This will add the leo nosql client to DI
         /// </summary>

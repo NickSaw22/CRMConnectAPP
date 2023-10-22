@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace CRMConnect.CRMConnect.Core.Entities
 {
@@ -10,4 +11,5 @@ namespace CRMConnect.CRMConnect.Core.Entities
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
     }
+
 }

@@ -1,4 +1,6 @@
-﻿using CRMConnect.CRMConnect.Service.Extentions;
+﻿using CRMConnect.CRMConnect.Data.DataAccess;
+using CRMConnect.CRMConnect.Service.Extentions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 namespace CRMConnect
@@ -23,20 +25,18 @@ namespace CRMConnect
             // services.AddScoped<IAccountService, AccountService>();
 
             //services.AddControllers(); // This line adds support for controllers
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddSingleton(configuration);
+
             services.AddBaseServices();
             services.AddDataServices();
             services.AddApiServices();
 
-            services.AddSqlClient();
+/*            services.AddSqlClient();*/            
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "crmConnectAPP", Version = "v1" });
             });
 
         }
