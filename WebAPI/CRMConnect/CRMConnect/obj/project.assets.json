@@ -2545,11 +2545,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Nikhil.Sawant2\\Desktop\\Nikhil\\CRMConnectAPP\\WebAPI\\CRMConnect\\CRMConnect\\CRMConnect.csproj",
+      "projectUniqueName": "C:\\Users\\Nikhil.Sawant2\\Desktop\\Nikhil Training\\Web API\\CRMConnect\\CRMConnect\\CRMConnect.csproj",
       "projectName": "CRMConnect",
-      "projectPath": "C:\\Users\\Nikhil.Sawant2\\Desktop\\Nikhil\\CRMConnectAPP\\WebAPI\\CRMConnect\\CRMConnect\\CRMConnect.csproj",
+      "projectPath": "C:\\Users\\Nikhil.Sawant2\\Desktop\\Nikhil Training\\Web API\\CRMConnect\\CRMConnect\\CRMConnect.csproj",
       "packagesPath": "C:\\Users\\Nikhil.Sawant2\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Nikhil.Sawant2\\Desktop\\Nikhil\\CRMConnectAPP\\WebAPI\\CRMConnect\\CRMConnect\\obj\\",
+      "outputPath": "C:\\Users\\Nikhil.Sawant2\\Desktop\\Nikhil Training\\Web API\\CRMConnect\\CRMConnect\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Nikhil.Sawant2\\AppData\\Roaming\\NuGet\\NuGet.Config",
