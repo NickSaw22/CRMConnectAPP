@@ -1,4 +1,6 @@
 ﻿using CRMConnect.CRMConnect.Core.Entities;
+using Newtonsoft.Json.Linq;
+using System.Text.Json.Nodes;
 
 namespace CRMConnect.CRMConnect.Data.Interfaces
 {

@@ -1,4 +1,6 @@
 ﻿using CRMConnect.CRMConnect.Core.Entities;
+using Newtonsoft.Json.Linq;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CRMConnect.CRMConnect.Business.Interfaces
 {
@@ -9,5 +11,6 @@ namespace CRMConnect.CRMConnect.Business.Interfaces
         Task<bool> DeleteOpportunityAsync(int id);
         Task<Opportunity> AddOpportunityAsync(Opportunity Opportunity);
         Task<bool> UpdateOpportunityAsync(Opportunity Opportunity);
+        Task<JObject> GetOpportunityStatusWiseAsync();
     }
 }

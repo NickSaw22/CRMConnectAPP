@@ -2,6 +2,7 @@
 using CRMConnect.CRMConnect.Core.Entities;
 using CRMConnect.CRMConnect.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 
 namespace CRMConnect.CRMConnect.Business.Implementaions
 {
@@ -42,6 +43,42 @@ namespace CRMConnect.CRMConnect.Business.Implementaions
             AssociateOpportunityWithAccountAndContact(opportunity, accounts, contacts);
             return opportunity;
         }
+
+        public async Task<JObject> GetOpportunityStatusWiseAsync()
+        {
+            var opportunities = await _opportunityRepository.GetAllOpportunityDataAsync();
+
+            if (opportunities == null || !opportunities.Any())
+            {
+                return JObject.FromObject(new
+                {
+                    label = new string[] { },
+                    series = new int[] { }
+                });
+            }
+
+            var statusCounts = opportunities
+                .GroupBy(o => o.Stage)
+                .Select(g => new
+                {
+                    Stage = g.Key,
+                    Count = g.Count()
+                })
+                .OrderBy(sc => sc.Stage)
+                .ToList();
+
+            var labels = statusCounts.Select(sc => sc.Stage.ToString()).ToArray();
+            var counts = statusCounts.Select(sc => sc.Count).ToArray();
+
+            var result = new
+            {
+                label = labels,
+                series = counts
+            };
+
+            return JObject.FromObject(result);
+        }
+
 
         public async Task<bool> UpdateOpportunityAsync(Opportunity Opportunity)
         {
