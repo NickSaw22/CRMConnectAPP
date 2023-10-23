@@ -51,5 +51,12 @@ namespace CRMConnect.CRMConnect.Service.Controllers
             if(request==null) return BadRequest(string.Empty);
             return Ok(await _opportunityService.UpdateOpportunityAsync(request));
         }
+
+        [HttpGet("getOpportunityStatusWise")]
+        public async Task<IActionResult> GetOpportunityStatusWise()
+        {
+            var response = await _opportunityService.GetOpportunityStatusWiseAsync();
+            return Ok(response);
+        }
     }
 }

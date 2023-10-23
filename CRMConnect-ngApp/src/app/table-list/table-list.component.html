@@ -1,0 +1,125 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="card-header card-header-danger">
+                      <h4 class="card-title ">Opportunity Table</h4>
+                      <p class="card-category"> Here is the list of opportunities</p>
+                  </div>
+                  <div class="card-body">
+                      <div class="table-responsive">
+                          <table class="table">
+                              <thead class=" text-primary">
+                                  <th>
+                                      Name
+                                  </th>
+                                  <th>
+                                      Account
+                                  </th>
+                                  <th>
+                                      Contact
+                                  </th>
+                                  <th>
+                                      Stage
+                                  </th>
+                                  <th>
+                                      Amount
+                                  </th>
+                                  <th>
+                                    Closing Date
+                                </th>
+                                <!-- <th>Actions</th> -->
+                              </thead>
+                              <tbody>
+                                  <tr *ngFor="let opportunity of opportunitiesDataList">
+                                      <td>
+                                          {{opportunity.name}}
+                                      </td>
+                                      <td>
+                                          {{opportunity.account.name}}
+                                      </td>
+                                      <td>
+                                        {{opportunity.contact.firstName + ' ' + opportunity.contact.lastName}}
+                                      </td>
+                                      <td>
+                                        {{ getOppStageName(opportunity.stage) }}                                        
+                                      </td>
+                                      <td class="text-primary">
+                                        ${{ opportunity.amount | number: '1.2-2' }}                                     </td>
+                                      <td>
+                                        {{ opportunity.closingDate | date: 'shortDate' }}
+                                    </td>
+                                    <!-- <td>
+                                        <button (click)="editOpportunity(opportunity)">Edit</button>
+                                        <button (click)="deleteOpportunity(opportunity)">Delete</button>
+                                      </td> -->
+                                  </tr>                                  
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-12">
+              <div class="card card-plain">
+                  <div class="card-header card-header-danger">
+                      <h4 class="card-title mt-0"> Deals Table</h4>
+                      <p class="card-category"> Here is a subtitle for this table</p>
+                  </div>
+                  <div class="card-body">
+                      <div class="table-responsive">
+                          <table class="table table-hover">
+                              <thead class="">
+                                  <th>
+                                      Name
+                                  </th>
+                                  <th>
+                                      Account
+                                  </th>
+                                  <th>
+                                      Contact
+                                  </th>
+                                  <th>
+                                      Opprtunity
+                                  </th>
+                                  <th>
+                                      Amount
+                                  </th>
+                                  <th>
+                                    Closing Date
+                                </th>
+                                <th>
+                                    Stage
+                                </th>
+                              </thead>
+                              <tbody>
+                                  <tr *ngFor="let deal of delasDataList">
+                                      <td>
+                                          {{deal.name}}
+                                      </td>
+                                      <td>
+                                          {{deal.account.name}}
+                                      </td>
+                                      <td>
+                                          {{deal.contact.firstName + ' ' + deal.contact.lastName}}
+                                      </td>
+                                      <td>
+                                          {{deal.opportunity.name}}
+                                      </td>
+                                      <td class="text-primary">
+                                        ${{ deal.amount | number: '1.2-2' }}                                     </td>
+                                      <td>
+                                        {{ deal.closingDate | date: 'shortDate' }}
+                                      </td>
+                                      <td> {{ getDealStageName(deal.stage) }}</td>
+                                  </tr>                                  
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
