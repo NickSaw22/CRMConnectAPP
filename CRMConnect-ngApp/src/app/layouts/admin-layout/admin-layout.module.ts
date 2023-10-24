@@ -17,10 +17,11 @@ import {MatRippleModule} from '@angular/material/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSelectModule} from '@angular/material/select';
+import { AgGridModule } from 'ag-grid-angular';
 import {CrmOpportunityGridServiceService} from '../../services/crm-opportunity-grid-service.service'
 import {CrmDealsGridServiceService} from '../../services/crm-deals-grid-service.service'
 import {CrmChartDataServiceService} from '../../services/crm-chart-data-service.service'
-
+import {CrmUploadfileServiceService} from '../../services/crm-uploadfile-service.service'
 @NgModule({
   imports: [
     CommonModule,
@@ -33,6 +34,7 @@ import {CrmChartDataServiceService} from '../../services/crm-chart-data-service.
     MatInputModule,
     MatSelectModule,
     MatTooltipModule,
+    AgGridModule,
   ],
   declarations: [
     DashboardComponent,
@@ -47,6 +49,7 @@ import {CrmChartDataServiceService} from '../../services/crm-chart-data-service.
   providers: [
     CrmOpportunityGridServiceService,
     CrmDealsGridServiceService,
+    CrmUploadfileServiceService,
     CrmChartDataServiceService,
   ],
 })

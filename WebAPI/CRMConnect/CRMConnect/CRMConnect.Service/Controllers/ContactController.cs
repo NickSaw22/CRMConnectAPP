@@ -63,5 +63,23 @@ namespace CRMConnect.CRMConnect.Service.Controllers
             var result = await _contactService.UpdateContactAsync(request);
             return Ok(result);
         }
+
+        [HttpPost("uploadFileContacts")]
+        public async Task<IActionResult> UploadFileContacts(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("File is empty.");
+            }
+            var result = await _contactService.UploadFileContactsAsync(file);
+            return Ok(result);
+        }
+
+        [HttpGet("getContactsJobWise")]
+        public async Task<IActionResult> GetContactsJobWise()
+        {
+            var response = await _contactService.GetContactsJobWiseAsync();
+            return Ok(response);
+        }
     }
 }

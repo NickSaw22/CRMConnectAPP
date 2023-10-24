@@ -1,7 +1,12 @@
-import { Component, OnInit, ChangeDetectorRef, Inject } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Inject, ViewChild, ElementRef } from '@angular/core';
 import { CrmDealsGridServiceService } from 'app/services/crm-deals-grid-service.service';
 import { CrmOpportunityGridServiceService } from 'app/services/crm-opportunity-grid-service.service';
 import { OpportunityStage, DealStage } from '../../app/layouts/admin-layout/generic-enums';
+import { AgGridAngular } from 'ag-grid-angular';
+import { CellClickedEvent, ColDef, GridReadyEvent } from 'ag-grid-community';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { CrmUploadfileServiceService } from 'app/services/crm-uploadfile-service.service';
 
 @Component({
   selector: 'app-table-list',
@@ -9,11 +14,40 @@ import { OpportunityStage, DealStage } from '../../app/layouts/admin-layout/gene
   styleUrls: ['./table-list.component.css']
 })
 export class TableListComponent implements OnInit {
+  gridApi: any;
+  gridColumnApi: any;
   opportunitiesDataList: any = []
   delasDataList; any = [];
+  rowsPerPage = 5;
+
+  public columnDefs: ColDef[] = [
+    { field: 'firstName',  editable: false},
+    { field: 'lastName',  editable: false},
+    { field: 'jobTitle',  editable: false },
+    { field: 'deptName',  editable: false},
+    { field: 'phoneNumber',  editable: true},
+    { field: 'emailAddress',  editable: true}
+  ];
+
+  // DefaultColDef sets props common to all Columns
+  public defaultColDef: ColDef = {
+    sortable: true,
+    filter: true,   
+    resizable: true
+  };
+  
+  // Data that gets displayed in the grid
+  public rowData$!: Observable<any[]>;
+
+  // For accessing the Grid's API
+  @ViewChild(AgGridAngular) agGrid!: AgGridAngular;
+  @ViewChild('fileInput') fileInput!: ElementRef;
+
+  selectedFile: any;
   constructor(private oppGridService : CrmOpportunityGridServiceService,
     private dealsGridService : CrmDealsGridServiceService,
-    @Inject(ChangeDetectorRef) public cdRef: ChangeDetectorRef) { }
+    @Inject(ChangeDetectorRef) public cdRef: ChangeDetectorRef,
+    private http: HttpClient, private uploadService: CrmUploadfileServiceService) { }
 
   ngOnInit() {
     this.PopulateOppGridData();
@@ -31,6 +65,23 @@ export class TableListComponent implements OnInit {
     );   
   }
 
+  onGridReady(params: GridReadyEvent) {
+    this.gridApi = params.api;
+    this.gridColumnApi = params.columnApi; 
+    this.gridApi.showLoadingOverlay();   
+    this.rowData$ = this.http
+      .get<any[]>('http://localhost:5109/api/contacts/getAllContacts');    
+  }
+
+  // Example of consuming Grid Event
+  onCellClicked( e: CellClickedEvent): void {
+    console.log('cellClicked', e);
+  }
+
+  getGridHeight() {
+    const rowHeight = this.gridApi?.getRowHeight() || 25; // Use a default row height if needed
+    return (this.rowsPerPage * rowHeight) + 'px';
+  }
   PopulateDealsGridData(){
     this.dealsGridService.getAllDealsData().subscribe(
       (res) => {
@@ -42,7 +93,40 @@ export class TableListComponent implements OnInit {
       }
     );   
   }
+  onCellValueChanged(params){
+    console.log(params);
+  }
+  onGridSizeChanged(params){
+    params.api.sizeColumnsToFit();
+  }
 
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0];
+  }
+
+  uploadFile(): void {
+    const formData = new FormData();
+    formData.append('file', this.selectedFile);
+  
+    this.uploadService.uploadFile(formData).subscribe(
+      (response) => {
+        console.log('File uploaded successfully.');
+        this.PopulateContactsGridData();
+        this.fileInput.nativeElement.value = '';
+      },
+      (error) => {
+        console.error('Error uploading file:', error);
+      }
+    );
+  }
+  
+  PopulateContactsGridData(){
+    this.http
+      .get<any[]>('http://localhost:5109/api/contacts/getAllContacts').subscribe(
+        (resp)=>{ this.gridApi && this.gridApi.setRowData(resp)},
+        (error)=>{ console.log(error)}
+      );
+  }
   
   getOppStageName(stage: OpportunityStage): string {
     //lead, qualified lead, opportunity, closed won, closed lost
