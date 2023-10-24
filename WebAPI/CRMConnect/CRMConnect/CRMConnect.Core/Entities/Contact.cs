@@ -4,7 +4,7 @@ namespace CRMConnect.CRMConnect.Core.Entities
 {
     public class Contact
     {
-        public int ContactId { get; set; }
+        public int? ContactId { get; set; }
         public string FirstName { get; set; }
         public String LastName { get; set; }
         public string JobTitle { get; set; }

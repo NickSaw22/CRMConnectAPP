@@ -1,4 +1,5 @@
 ﻿using CRMConnect.CRMConnect.Core.Entities;
+using Newtonsoft.Json.Linq;
 
 namespace CRMConnect.CRMConnect.Business.Interfaces
 {
@@ -9,5 +10,7 @@ namespace CRMConnect.CRMConnect.Business.Interfaces
         Task<bool> DeleteContactAsync(int id);
         Task<Contact> AddContactAsync(Contact contact);
         Task<bool> UpdateContactAsync(Contact contact);
+        Task<bool> UploadFileContactsAsync(IFormFile file);
+        Task<JObject> GetContactsJobWiseAsync();
     }
 }

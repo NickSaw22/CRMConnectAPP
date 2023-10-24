@@ -11,4 +11,9 @@ export class CrmChartDataServiceService {
     const barDataApiUrl = 'http://localhost:5109/api/opportunity/getOpportunityStatusWise';
     return this.http.get(barDataApiUrl);
   }
+
+  getContactJobPieFata(){
+    const pieDataApiUrl = 'http://localhost:5109/api/contacts/getContactsJobWise';
+    return this.http.get(pieDataApiUrl);
+  }
 }

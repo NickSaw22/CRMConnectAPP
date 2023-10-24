@@ -1,6 +1,10 @@
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { CrmChartDataServiceService } from 'app/services/crm-chart-data-service.service';
 import * as Chartist from 'chartist';
+import * as Highcharts from 'highcharts';
+import exportingInit from 'highcharts/modules/exporting';
+import exportDataInit from 'highcharts/modules/export-data';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -118,8 +122,85 @@ export class DashboardComponent implements OnInit {
 
       /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
       this.LoadBarChart();
-      
+      this.getPieChartData();   
   }
+
+  createPieChart(chartData) {
+    exportingInit(Highcharts);
+    exportDataInit(Highcharts);
+  
+    const options: Highcharts.Options = {
+      chart: {
+        type: 'pie',
+      },
+      title: {
+        text: 'Contacts by Job Title',
+      },
+      plotOptions: {
+        pie: {
+          allowPointSelect: true,
+          cursor: 'pointer',
+          dataLabels: {
+            enabled: true,
+            format: '<b>{point.name}</b>: {point.y}',
+          },
+        },
+      },
+      series: [
+        {
+          type: 'pie',
+          name: 'Job Titles',
+          data: chartData,
+        },
+      ],
+    };
+    
+    // Create the chart
+    Highcharts.chart('contactsJobsChart', options);
+  }
+  
+
+  getPieChartData(){
+    this.chartDataService.getContactJobPieFata().subscribe((res)=>{
+      const mappedData = res['label'].map((label, index) => ({
+        name: label,
+        y: res['series'][index]
+      }));
+      this.createPieChart(mappedData);
+    },
+    (error)=>{console.log(error)})
+  }
+  // createPieChart(chartData): void {
+  //   const jobTitles = chartData.label;
+  //   const contactCounts = chartData.series;
+  //   const data = {
+  //     labels: jobTitles,
+  //     series: contactCounts,
+  //   };
+  
+  //   const options = {
+  //     donut: true, // Create a pie chart with a hole in the center for a donut chart.
+  //     donutWidth: 60, // Adjust the size of the hole.
+  //     donutSolid: true, // Solid donut instead of an outline.
+  //   };
+
+  //   const responsiveOptions: any[] = [
+  //     ['screen and (max-width: 640px)', {
+  //       seriesBarDistance: 5,
+  //       axisX: {
+  //         labelInterpolationFnc: function (value) {
+  //           return value[0];
+  //         }
+  //       }
+  //     }]
+  //   ]
+  
+  //   var contactsJobsChart = new Chartist.Pie('#contactsJobsChart', data, options, responsiveOptions);
+  //   //start animation for the Emails Subscription Chart
+  //   this.startAnimationForBarChart(contactsJobsChart);
+  //   this.cdRef && this.cdRef.detectChanges();
+  // }
+  
   LoadBarChart(){
     this.chartDataService.getOppBarChartData().subscribe(
       (res)=>{
