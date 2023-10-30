@@ -15,6 +15,10 @@ namespace CRMConnect.CRMConnect.Core.Entities
         public decimal Amount { get; set; }
         public DateTime ClosingDate { get; set; }
         public DealStage Stage { get; set; }
+
+        [NotMapped]
+        public bool? isStatusChanged { get; set; }
+
     }
 
     public enum DealStage 

@@ -6,6 +6,7 @@ import { AdminLayoutRoutes } from './admin-layout.routing';
 import { DashboardComponent } from '../../dashboard/dashboard.component';
 import { UserProfileComponent } from '../../user-profile/user-profile.component';
 import { TableListComponent } from '../../table-list/table-list.component';
+import { CrmContactsTableListComponent } from '../../crm-contacts-table-list/crm-contacts-table-list.component';
 import { TypographyComponent } from '../../typography/typography.component';
 import { IconsComponent } from '../../icons/icons.component';
 import { MapsComponent } from '../../maps/maps.component';
@@ -22,6 +23,11 @@ import {CrmOpportunityGridServiceService} from '../../services/crm-opportunity-g
 import {CrmDealsGridServiceService} from '../../services/crm-deals-grid-service.service'
 import {CrmChartDataServiceService} from '../../services/crm-chart-data-service.service'
 import {CrmUploadfileServiceService} from '../../services/crm-uploadfile-service.service'
+import {CrmCustomGridDropdownEditorComponent} from '../../crm-custom-grid-dropdown-editor/crm-custom-grid-dropdown-editor.component'
+import { CrmOpportunityTableListComponent } from 'app/crm-opportunity-table-list/crm-opportunity-table-list.component';
+import { DatePipe } from '@angular/common';
+import { CrmAddOpportunityRowSliderComponent } from 'app/crm-add-opportunity-row-slider/crm-add-opportunity-row-slider.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -34,7 +40,7 @@ import {CrmUploadfileServiceService} from '../../services/crm-uploadfile-service
     MatInputModule,
     MatSelectModule,
     MatTooltipModule,
-    AgGridModule,
+    AgGridModule,    
   ],
   declarations: [
     DashboardComponent,
@@ -45,12 +51,17 @@ import {CrmUploadfileServiceService} from '../../services/crm-uploadfile-service
     MapsComponent,
     NotificationsComponent,
     UpgradeComponent,
+    CrmContactsTableListComponent,
+    CrmCustomGridDropdownEditorComponent,
+    CrmOpportunityTableListComponent,    
+    CrmAddOpportunityRowSliderComponent,
   ],
   providers: [
     CrmOpportunityGridServiceService,
     CrmDealsGridServiceService,
     CrmUploadfileServiceService,
     CrmChartDataServiceService,
+    DatePipe
   ],
 })
 

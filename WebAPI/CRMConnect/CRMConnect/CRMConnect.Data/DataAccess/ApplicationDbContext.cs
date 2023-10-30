@@ -19,7 +19,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Deal> Deals { get; set; }
     public DbSet<Task> Tasks { get; set; }
     public DbSet<Note> Notes { get; set; }
-
+    public DbSet<LogStatus> LogStatus { get; set; }
 
 
 

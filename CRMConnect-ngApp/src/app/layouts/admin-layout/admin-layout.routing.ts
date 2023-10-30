@@ -8,7 +8,8 @@ import { IconsComponent } from '../../icons/icons.component';
 import { MapsComponent } from '../../maps/maps.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
 import { UpgradeComponent } from '../../upgrade/upgrade.component';
-import {CrmOpportunityGridServiceService} from '../../services/crm-opportunity-grid-service.service'
+import {CrmContactsTableListComponent} from '../../crm-contacts-table-list/crm-contacts-table-list.component';
+import { CrmOpportunityTableListComponent } from 'app/crm-opportunity-table-list/crm-opportunity-table-list.component';
 
 export const AdminLayoutRoutes: Routes = [
     // {
@@ -61,4 +62,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'maps',           component: MapsComponent },
     { path: 'notifications',  component: NotificationsComponent },
     { path: 'upgrade',        component: UpgradeComponent },
+    { path: 'contacts-table-list', component: CrmContactsTableListComponent },
+    { path: 'opportunities-table-list', component: CrmOpportunityTableListComponent },
 ];
