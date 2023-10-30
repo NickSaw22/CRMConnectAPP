@@ -11,15 +11,21 @@ namespace CRMConnect.CRMConnect.Business.Implementaions
         private readonly IOpportunityRepository _opportunityRepository;
         private readonly IAccountRepository _accountRepository;
         private readonly IContactRepository _contactRepository;
-        public OpportunityService(IOpportunityRepository opportunityRepository, IAccountRepository accountRepository, IContactRepository contactRepository)
+        private readonly IDealRepository _dealRepository;
+        private readonly ILogStatusRepository _logStatusRepository;
+        public OpportunityService(IOpportunityRepository opportunityRepository, IAccountRepository accountRepository, IContactRepository contactRepository, IDealRepository dealRepository, ILogStatusRepository logStatusRepository)
         {
             _opportunityRepository = opportunityRepository;
             _accountRepository = accountRepository;
             _contactRepository = contactRepository;
+            _dealRepository = dealRepository;
+            _logStatusRepository = logStatusRepository;
         }
 
         public Task<Opportunity> AddOpportunityAsync(Opportunity Opportunity)
         {
+            Opportunity.CreatedById = Opportunity.AccountId;
+            Opportunity.CreatedOn = DateTime.Now;
             return _opportunityRepository.AddOpportunityDataAsync(Opportunity);
         }
 
@@ -82,9 +88,40 @@ namespace CRMConnect.CRMConnect.Business.Implementaions
 
         public async Task<bool> UpdateOpportunityAsync(Opportunity Opportunity)
         {
-            return await _opportunityRepository.UpdateOpportunityDataAsync(Opportunity);
-        }
+            var prevResp = await _opportunityRepository.GetOpportunityByIdDataAsync(Opportunity.Id);
+            Opportunity.ModifiedById = Opportunity.AccountId;
+            Opportunity.ModifiedOn = DateTime.Now;
+            var result = await _opportunityRepository.UpdateOpportunityDataAsync(Opportunity);
+            if (Opportunity.isStatusChanged == true)
+            {
+                LogStatus request = new LogStatus
+                {
+                    AssociatedEntity = "Opportunity",
+                    EntityId = Opportunity.Id,
+                    StatusFrom = ((int)prevResp.Stage),
+                    StatusTo = ((int)Opportunity.Stage)
+                };
+                await _logStatusRepository.AddLogStatusAsync(request);
+            }
+            if (result != null && Opportunity.Stage == OpportunityStage.ClosedWon)
+            {
+                Deal deal = new Deal
+                {
+                    Name = "Deal - " + Opportunity.Name,
+                    AccountId = Opportunity.AccountId,
+                    ContactId = Opportunity.ContactId,
+                    OpportunityId = Opportunity.Id,
+                    Amount = Opportunity.Amount,
+                    ClosingDate = Opportunity.ClosingDate,
+                    Stage = DealStage.Open
+                };
 
+                await _dealRepository.AddDealDataAsync(deal);
+            }
+            return result;
+
+
+        }
 
         private List<Opportunity> AssociateOpportunitiesWithAccountsAndContacts(List<Opportunity> opportunities, List<Account> accounts, List<Contact> contacts)
         {

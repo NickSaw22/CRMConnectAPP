@@ -1,0 +1,5 @@
+<!-- custom-dropdown-editor.component.html -->
+<select [(ngModel)]="value">
+    <option *ngFor="let option of options" [value]="option.value">{{ option.label }}</option>
+  </select>
+      

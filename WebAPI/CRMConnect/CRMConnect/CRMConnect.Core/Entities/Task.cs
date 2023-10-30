@@ -22,7 +22,9 @@
         Account,
         Contact,
         Opportunity,
-        Deal
+        Deal,
+        Task,
+        Note
     }
     public enum TaskCurrentStatus
     {

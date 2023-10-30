@@ -123,6 +123,7 @@ namespace CRMConnect.CRMConnect.Service.Extentions
             services.AddScoped<IDealRepository, DealRepository>();
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<INoteRepository, NoteRepository>();
+            services.AddScoped<ILogStatusRepository, LogStatusRepository>();
         }
 
 
